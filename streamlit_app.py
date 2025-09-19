@@ -156,5 +156,4 @@ def main():
             st.session_state.show_feedback = False
             st.session_state.wrong_feedback_given = False
 
-if __name__ == "__main__":
-    main()
+main()
