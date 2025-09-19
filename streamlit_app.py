@@ -155,5 +155,3 @@ def main():
             st.info(f"Thank you for the feedback! The correct number was {correct_number}. This data has been conceptually saved.")
             st.session_state.show_feedback = False
             st.session_state.wrong_feedback_given = False
-
-main()
