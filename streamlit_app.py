@@ -66,14 +66,8 @@ def save_feedback(image_data, prediction, correct_number):
     else:
         updated_df = feedback_entry
     
-    # Save the updated DataFrame back to the CSV file by writing to a file handle
-    with open(FEEDBACK_FILE, "a") as f:
-        # If the file is new, write the header
-        if updated_df.shape[0] == 1:
-            updated_df.to_csv(f, header=True, index=False)
-        else:
-            # Otherwise, append without the header
-            updated_df.tail(1).to_csv(f, header=False, index=False)
+    # Save the updated DataFrame back to the CSV file
+    updated_df.to_csv(FEEDBACK_FILE, index=False)
 
 def main():
     st.set_page_config(
@@ -163,4 +157,4 @@ def main():
             st.session_state.wrong_feedback_given = False
 
 if __name__ == "__main__":
-main()
+    main()
