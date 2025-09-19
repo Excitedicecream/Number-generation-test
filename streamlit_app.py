@@ -50,12 +50,16 @@ def save_feedback(image_data, prediction, correct_number):
     img = Image.fromarray(image_data.astype('uint8'), 'RGBA')
     img.save(buffered, format="PNG")
     img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+    
+    # Determine if the prediction was correct
+    is_correct = (prediction == correct_number)
 
     # Create a new DataFrame for the new feedback entry
     feedback_entry = pd.DataFrame([{
         "image_data_b64": img_str,
         "predicted_number": prediction,
         "correct_number": correct_number,
+        "is_correct": is_correct,
         "timestamp": pd.Timestamp.now()
     }])
 
@@ -66,8 +70,14 @@ def save_feedback(image_data, prediction, correct_number):
     else:
         updated_df = feedback_entry
     
-    # Save the updated DataFrame back to the CSV file
-    updated_df.to_csv(FEEDBACK_FILE, index=False)
+    # Save the updated DataFrame back to the CSV file by writing to a file handle
+    with open(FEEDBACK_FILE, "a") as f:
+        # If the file is new, write the header
+        if updated_df.shape[0] == 1:
+            updated_df.to_csv(f, header=True, index=False)
+        else:
+            # Otherwise, append without the header
+            updated_df.tail(1).to_csv(f, header=False, index=False)
 
 def main():
     st.set_page_config(
