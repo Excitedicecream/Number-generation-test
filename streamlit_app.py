@@ -7,6 +7,7 @@ import random
 import time
 import base64
 import io
+import os
 
 # --- Conceptual Introduction to Neural Networks ---
 # A neural network is a series of interconnected layers of "neurons."
@@ -36,7 +37,7 @@ def mock_predict(image_array):
     return random.randint(0, 9)
 
 # File path for conceptual feedback storage
-FEEDBACK_FILE = "https://raw.githubusercontent.com/Excitedicecream/CSV-Files/refs/heads/main/Number.csv"
+FEEDBACK_FILE = "https://github.com/Excitedicecream/Number-generation-test/tree/master.csv"
 
 def save_feedback(image_data, prediction, correct_number):
     """
@@ -58,11 +59,11 @@ def save_feedback(image_data, prediction, correct_number):
         "timestamp": pd.Timestamp.now()
     }])
 
-    # Try to load existing data and append the new entry
-    try:
+    # Check if the file exists before attempting to read it
+    if os.path.exists(FEEDBACK_FILE):
         existing_df = pd.read_csv(FEEDBACK_FILE)
         updated_df = pd.concat([existing_df, feedback_entry], ignore_index=True)
-    except FileNotFoundError:
+    else:
         updated_df = feedback_entry
     
     # Save the updated DataFrame back to the CSV file
