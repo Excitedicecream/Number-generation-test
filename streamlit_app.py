@@ -111,11 +111,23 @@ if page == "Number Recognizer":
                     st.success("Thanks! Feedback saved temporarily in cache.")
 
             with col2:
+                # Step 1: When user clicks "No", remember it in session state
                 if st.button("❌ No"):
+                    st.session_state.show_correction_input = True
+
+                # Step 2: Show correction input only after clicking "No"
+                if st.session_state.get("show_correction_input", False):
                     correct_num = st.number_input("Enter the correct number:", 0, 9, key="correct_input")
+                    
                     if st.button("Submit Correction"):
-                        store_feedback(canvas_result.image_data, prediction, correct=correct_num)
-                        st.info(f"Feedback saved. Correct number: {correct_num}")
+                        # Append feedback to cache
+                        st.session_state.feedback_cache.append({
+                            "image_data": canvas_result.image_data,
+                            "predicted": prediction,
+                            "correct_number": correct_num
+                        })
+                        st.info(f"✅ Feedback saved. Correct number: {correct_num}")
+                        st.session_state.show_correction_input = False  # Reset for next time
         else:
             st.error("Please draw a number first!")
 
@@ -139,11 +151,37 @@ elif page == "Cached Dataset Viewer":
     st.subheader("🧠 User Feedback in Cache")
 
     if "feedback_cache" in st.session_state and len(st.session_state.feedback_cache) > 0:
-        for i, fb in enumerate(st.session_state.feedback_cache):
-            if "image_data" in fb:
-                st.image(fb["image_data"], caption=f"Prediction: {fb['predicted']} | Correct: {fb['correct_number']}")
-            else:
-                st.write(f"Prediction: {fb.get('predicted', 'N/A')} | Correct: {fb.get('correct_number', 'N/A')}")
+        feedback_df = pd.DataFrame(st.session_state.feedback_cache)
+
+        # Split correct and incorrect predictions
+        correct_feedback = feedback_df[feedback_df["is_correct"] == True]
+        wrong_feedback = feedback_df[feedback_df["is_correct"] == False]
+
+        # --- Correct Predictions ---
+        st.markdown("### 🟩 Correct Predictions")
+        if not correct_feedback.empty:
+            for i, fb in correct_feedback.iterrows():
+                if "image_data" in fb:
+                    st.image(fb["image_data"], caption=f"✅ Predicted & Correct: {fb['predicted']}", width=120)
+                else:
+                    st.write(f"✅ Predicted & Correct: {fb['predicted']}")
+        else:
+            st.info("No correct predictions yet.")
+
+        # --- Wrong Predictions ---
+        st.markdown("### 🟥 Wrong Predictions")
+        if not wrong_feedback.empty:
+            for i, fb in wrong_feedback.iterrows():
+                if "image_data" in fb:
+                    st.image(
+                        fb["image_data"],
+                        caption=f"❌ Predicted: {fb['predicted']} | ✅ Actual: {fb['correct_number']}",
+                        width=120
+                    )
+                else:
+                    st.write(f"❌ Predicted: {fb['predicted']} | ✅ Actual: {fb['correct_number']}")
+        else:
+            st.info("No wrong predictions yet.")
     else:
         st.info("No feedback saved yet.")
 
