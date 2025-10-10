@@ -139,18 +139,7 @@ elif page == "Cached Dataset Viewer":
     for idx in sample_indices:
         st.image(x_train[idx].reshape(28, 28), caption=f"Label: {y_train[idx]}", width=100)
 
-    st.markdown("---")
-    st.subheader("🧠 User Feedback in Cache")
-
-    if "feedback_cache" in st.session_state and len(st.session_state.feedback_cache) > 0:
-        for i, fb in enumerate(st.session_state.feedback_cache):
-            if "image_data" in fb:
-                st.image(fb["image_data"], caption=f"Prediction: {fb['predicted']} | Correct: {fb['correct_number']}")
-            else:
-                st.write(f"Prediction: {fb.get('predicted', 'N/A')} | Correct: {fb.get('correct_number', 'N/A')}")
-    else:
-        st.info("No feedback saved yet.")
-
+    
     if st.button("🧹 Clear Cache & Memory"):
         st.cache_resource.clear()
         st.session_state.clear()
