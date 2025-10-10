@@ -126,8 +126,8 @@ if page == "Number Recognizer":
 # ===============================
 # PAGE 2: Cached Dataset Viewer
 # ===============================
-elif page == "Cached Dataset Viewer":
-    st.title("📊 Cached MNIST Dataset Viewer")
+elif page == "Dataset Viewer":
+    st.title("📊 MNIST Dataset Viewer")
     st.markdown("This page shows random samples from the **cached MNIST dataset** and any feedback stored in memory.")
 
     model, x_train, y_train = load_model_and_data()
