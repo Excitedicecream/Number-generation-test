@@ -140,7 +140,9 @@ elif page == "Dataset Viewer":
         st.image(x_train[idx].reshape(28, 28), caption=f"Label: {y_train[idx]}", width=100)
 
     st.markdown("---")
-    st.subheader("📝 Stored Feedback in Memory View(in progress)")
+    st.subheader("📝 Stored Feedback in Memory View")
+    st.write("Feature under development. Stay tuned!")
+    st.markdown("*(This section will display feedback entries stored in session memory.)*")
     
     if st.button("🧹 Clear Cache & Memory"):
         st.cache_resource.clear()
