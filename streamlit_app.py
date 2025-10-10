@@ -61,7 +61,7 @@ st.sidebar.markdown("---")
 st.sidebar.header("👤 About the Creator")
 st.sidebar.markdown(
     """
-**Jonathan Wong Tze Syuen**  
+**Jonathan Wong**  
 📚 Data Science  
 
 🔗 [LinkedIn](https://www.linkedin.com/in/jonathan-wong-2b9b39233/)  
@@ -144,7 +144,7 @@ elif page == "Dataset Viewer":
     st.write("Feature under development. Stay tuned!")
     st.markdown("*(This section will display feedback entries stored in session memory.)*")
     st.markdown("---")
-    
+
     if st.button("🧹 Clear Cache & Memory"):
         st.cache_resource.clear()
         st.session_state.clear()
