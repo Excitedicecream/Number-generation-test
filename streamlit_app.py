@@ -54,7 +54,7 @@ st.set_page_config(page_title="🧠 Keras Number Recognizer", page_icon="🤖", 
 
 # Sidebar navigation
 st.sidebar.title("🧭 Navigation")
-page = st.sidebar.radio("Select a Page", ["Number Recognizer", "Cached Dataset Viewer"])
+page = st.sidebar.radio("Select a Page", ["Number Recognizer", "Dataset Viewer"])
 
 # Sidebar Author Info
 st.sidebar.markdown("---")
