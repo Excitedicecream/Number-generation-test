@@ -143,6 +143,7 @@ elif page == "Dataset Viewer":
     st.subheader("📝 Stored Feedback in Memory View")
     st.write("Feature under development. Stay tuned!")
     st.markdown("*(This section will display feedback entries stored in session memory.)*")
+    st.markdown("---")
     
     if st.button("🧹 Clear Cache & Memory"):
         st.cache_resource.clear()
